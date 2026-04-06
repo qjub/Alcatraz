@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alcatraz | Pizza & Burgers — Trenčín</title>
+<meta name="description" content="Burgre, pizza, šaláty a poké v Trenčíne. Objednaj telefonicky alebo príď k nám na Východnú ulicu.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0c1a2e;--bg2:#111f33;--bg3:#1a2d47;--bg4:#223750;
+  --text:#f0ece4;--text2:#a8a196;--text3:#6b7d8d;
+  --accent:#d4442a;--accent2:#ff6b4a;--gold:#c8a455;
+  --font-display:'Bebas Neue',sans-serif;
+  --font-body:'DM Sans',sans-serif;
+  --max:1200px;--gap:clamp(1rem,3vw,2rem);
+  --radius:12px;
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:var(--font-body);background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+.container{max-width:var(--max);margin:0 auto;padding:0 var(--gap)}
+
+/* ===== NAV ===== */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 0;transition:background .3s,backdrop-filter .3s}
+nav.scrolled{background:rgba(12,26,46,.95);backdrop-filter:blur(16px);box-shadow:0 2px 20px rgba(0,0,0,.3)}
+nav .inner{display:flex;align-items:center;justify-content:space-between;max-width:var(--max);margin:0 auto;padding:0 var(--gap)}
+.logo-img{height:200px;width:auto;transition:opacity .2s}
+.logo-img:hover{opacity:.85}
+nav ul{display:flex;gap:clamp(1rem,2.5vw,2.5rem);list-style:none;align-items:center}
+nav ul a{font-size:1rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--text2);transition:color .2s}
+nav ul a:hover{color:var(--accent2)}
+.lang-btn{font-size:.9rem;font-weight:700;padding:.4em .9em;border:1px solid var(--text3);border-radius:6px;letter-spacing:.06em;transition:all .2s}
+.lang-btn:hover{border-color:var(--accent);color:var(--accent)}
+.nav-cta{display:inline-flex;align-items:center;gap:.5rem;background:var(--accent);color:#fff;padding:.7em 1.5em;border-radius:8px;font-size:.95rem;font-weight:700;letter-spacing:.03em;transition:background .2s}
+.nav-cta:hover{background:var(--accent2)}
+.nav-cta svg{width:18px;height:18px}
+.burger-menu{display:none;flex-direction:column;gap:6px;width:32px;cursor:pointer}
+.burger-menu span{display:block;height:2.5px;background:var(--text);border-radius:2px;transition:all .3s}
+.mobile-menu{display:none;position:fixed;inset:0;background:rgba(12,26,46,.98);z-index:99;flex-direction:column;align-items:center;justify-content:center;gap:2.5rem}
+.mobile-menu.open{display:flex}
+.mobile-menu a{font-family:var(--font-display);font-size:2.8rem;letter-spacing:.06em}
+.mobile-menu .close-btn{position:absolute;top:1.5rem;right:1.5rem;font-size:2.5rem;color:var(--text2)}
+
+/* ===== HERO ===== */
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background-size:cover;background-position:center right;background-repeat:no-repeat}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(12,26,46,.92) 0%,rgba(12,26,46,.75) 40%,rgba(12,26,46,.3) 70%,rgba(12,26,46,.1) 100%)}
+.hero-overlay2{position:absolute;inset:0;background:linear-gradient(180deg,rgba(12,26,46,.4) 0%,transparent 30%,transparent 70%,rgba(12,26,46,.8) 100%)}
+.hero-content{position:relative;padding:0 var(--gap);max-width:650px;margin-left:clamp(2rem,8vw,8rem)}
+.hero-badge{display:inline-block;font-size:.7rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);border:1px solid rgba(200,164,85,.3);padding:.4em 1.2em;border-radius:20px;margin-bottom:1.5rem;animation:fadeUp .8s .2s both}
+.hero h1{font-family:var(--font-display);font-size:clamp(3rem,10vw,6.5rem);line-height:.95;letter-spacing:.02em;margin-bottom:1rem;animation:fadeUp .8s .4s both}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.hero-sub{font-size:clamp(1rem,2vw,1.15rem);color:var(--text2);max-width:480px;margin-bottom:2.5rem;animation:fadeUp .8s .6s both}
+.hero-actions{display:flex;gap:1rem;flex-wrap:wrap;animation:fadeUp .8s .8s both}
+.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.85em 2em;border-radius:10px;font-size:.9rem;font-weight:700;letter-spacing:.03em;transition:all .25s}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:var(--accent2);transform:translateY(-2px)}
+.btn-outline{border:1.5px solid rgba(240,236,228,.3);color:var(--text)}
+.btn-outline:hover{border-color:var(--gold);color:var(--gold)}
+.hero-hours{margin-top:3rem;font-size:.8rem;color:var(--text3);animation:fadeUp .8s 1s both}
+.hero-hours strong{color:var(--text2)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+
+/* ===== SECTION LAYOUT ===== */
+section{padding:clamp(4rem,8vw,7rem) 0}
+.section-label{font-size:.7rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:.5rem}
+.section-title{font-family:var(--font-display);font-size:clamp(2rem,5vw,3.5rem);letter-spacing:.02em;margin-bottom:.5rem}
+.section-desc{color:var(--text2);max-width:500px;margin-bottom:2.5rem}
+
+/* ===== MENU ===== */
+#menu{background:var(--bg)}
+.menu-tabs{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:2.5rem;border-bottom:1px solid var(--bg3);padding-bottom:1rem}
+.menu-tab{padding:.6em 1.4em;border-radius:8px;font-size:.8rem;font-weight:600;letter-spacing:.03em;color:var(--text3);transition:all .2s;text-transform:uppercase}
+.menu-tab.active,.menu-tab:hover{background:var(--accent);color:#fff}
+.menu-grid{display:grid;gap:1px;background:var(--bg3);border-radius:var(--radius);overflow:hidden}
+.menu-item{display:grid;grid-template-columns:1fr auto;gap:.5rem 2rem;padding:1.2rem 1.5rem;background:var(--bg2);transition:background .2s;align-items:start}
+.menu-item:hover{background:var(--bg4)}
+.menu-item h4{font-size:1rem;font-weight:600;margin-bottom:.2rem}
+.menu-item .desc{font-size:.8rem;color:var(--text3);line-height:1.5;grid-column:1}
+.menu-item .price{font-family:var(--font-display);font-size:1.3rem;color:var(--gold);white-space:nowrap;text-align:right}
+.menu-item .weight{font-size:.7rem;color:var(--text3);text-align:right}
+.menu-category{display:none}
+.menu-category.active{display:block}
+.allergen-note{font-size:.75rem;color:var(--text3);margin-top:1.5rem;padding:1rem;background:var(--bg2);border:1px solid var(--bg3);border-radius:8px}
+
+/* ===== WHY US ===== */
+#why{background:var(--bg2)}
+.why-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem}
+.why-card{padding:2rem;background:var(--bg);border-radius:var(--radius);border:1px solid var(--bg3);transition:border-color .3s,transform .3s}
+.why-card:hover{border-color:var(--accent);transform:translateY(-4px)}
+.why-icon{width:48px;height:48px;background:rgba(212,68,42,.12);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:1rem;color:var(--accent)}
+.why-card h4{font-size:1.05rem;font-weight:700;margin-bottom:.5rem}
+.why-card p{font-size:.85rem;color:var(--text2);line-height:1.6}
+
+/* ===== LOCATION ===== */
+#location{background:var(--bg)}
+.location-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start}
+.map-container{border-radius:var(--radius);overflow:hidden;aspect-ratio:4/3;background:var(--bg3)}
+.map-container iframe{width:100%;height:100%;border:0}
+.info-block{padding:2rem;background:var(--bg2);border-radius:var(--radius);border:1px solid var(--bg3)}
+.info-block h3{font-family:var(--font-display);font-size:1.6rem;margin-bottom:1.5rem;letter-spacing:.02em}
+.info-row{display:flex;gap:1rem;align-items:flex-start;margin-bottom:1.2rem}
+.info-row svg{flex-shrink:0;width:20px;height:20px;color:var(--accent);margin-top:.15rem}
+.info-row .label{font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);margin-bottom:.15rem}
+.info-row .val{font-size:.95rem}
+.hours-table{width:100%;margin-top:1rem;border-collapse:collapse}
+.hours-table td{padding:.4rem 0;font-size:.9rem;border-bottom:1px solid var(--bg3)}
+.hours-table td:last-child{text-align:right;color:var(--gold);font-weight:600}
+
+/* ===== CONTACT ===== */
+#contact{background:var(--bg2)}
+.contact-strip{display:flex;flex-wrap:wrap;gap:2rem;justify-content:center;text-align:center}
+.contact-item{flex:1;min-width:200px;padding:2rem;background:var(--bg);border-radius:var(--radius);border:1px solid var(--bg3);transition:border-color .3s}
+.contact-item:hover{border-color:var(--accent)}
+.contact-item svg{width:28px;height:28px;color:var(--accent);margin-bottom:.8rem}
+.contact-item .clabel{font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);margin-bottom:.3rem}
+.contact-item .cval{font-size:1.1rem;font-weight:600}
+.contact-item .cval a{transition:color .2s}
+.contact-item .cval a:hover{color:var(--accent2)}
+
+/* ===== FOOTER ===== */
+footer{background:var(--bg);border-top:1px solid var(--bg3);padding:2.5rem 0}
+.footer-inner{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.footer-copy{font-size:.8rem;color:var(--text3)}
+.footer-socials{display:flex;gap:.8rem}
+.footer-socials a{width:36px;height:36px;display:flex;align-items:center;justify-content:center;border-radius:8px;border:1px solid var(--bg3);color:var(--text3);transition:all .2s}
+.footer-socials a:hover{border-color:var(--accent);color:var(--accent)}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:768px){
+  nav ul.desktop-nav{display:none}
+  .burger-menu{display:flex}
+  .location-grid{grid-template-columns:1fr}
+  .menu-item{grid-template-columns:1fr;gap:.3rem}
+  .menu-item .price{text-align:left}
+  .hero-content{margin-left:0}
+  .hero-overlay{background:linear-gradient(180deg,rgba(12,26,46,.85) 0%,rgba(12,26,46,.6) 50%,rgba(12,26,46,.85) 100%)}
+  .hero{align-items:flex-end;padding-bottom:4rem}
+}
+
+/* ===== SCROLL ANIMATIONS ===== */
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .6s,transform .6s}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* ===== KOŠÍK ===== */
+.add-btn{margin-top:.6rem;padding:.4em 1em;background:var(--accent);color:#fff;border-radius:7px;font-size:.8rem;font-weight:700;letter-spacing:.03em;transition:background .2s;cursor:pointer;border:none;font-family:inherit}
+.add-btn:hover{background:var(--accent2)}
+.menu-item .price-wrap{display:flex;flex-direction:column;align-items:flex-end;gap:.3rem}
+
+.cart-fab{position:fixed;bottom:2rem;right:2rem;z-index:200;background:var(--accent);color:#fff;border:none;border-radius:50px;padding:.8em 1.4em;font-size:1rem;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:.6rem;box-shadow:0 4px 20px rgba(212,68,42,.4);transition:background .2s,transform .2s;font-family:inherit}
+.cart-fab:hover{background:var(--accent2);transform:translateY(-2px)}
+.cart-fab.hidden{display:none}
+.cart-count{background:#fff;color:var(--accent);border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:800}
+
+.cart-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:300;opacity:0;pointer-events:none;transition:opacity .3s}
+.cart-overlay.open{opacity:1;pointer-events:all}
+.cart-drawer{position:fixed;top:0;right:0;bottom:0;width:min(420px,100vw);background:var(--bg2);z-index:301;transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;box-shadow:-4px 0 30px rgba(0,0,0,.3)}
+.cart-drawer.open{transform:translateX(0)}
+.cart-header{display:flex;align-items:center;justify-content:space-between;padding:1.5rem;border-bottom:1px solid var(--bg3)}
+.cart-header h3{font-family:var(--font-display);font-size:1.6rem;letter-spacing:.02em}
+.cart-close{font-size:1.8rem;color:var(--text2);cursor:pointer;background:none;border:none;color:inherit;line-height:1}
+.cart-items{flex:1;overflow-y:auto;padding:1rem 1.5rem}
+.cart-empty{text-align:center;color:var(--text3);padding:3rem 0;font-size:.95rem}
+.cart-row{display:flex;align-items:center;gap:.8rem;padding:.8rem 0;border-bottom:1px solid var(--bg3)}
+.cart-row-name{flex:1;font-size:.9rem;font-weight:600}
+.cart-row-price{font-family:var(--font-display);font-size:1.1rem;color:var(--gold);white-space:nowrap}
+.cart-qty{display:flex;align-items:center;gap:.4rem}
+.cart-qty button{width:26px;height:26px;border-radius:6px;border:1px solid var(--bg3);background:var(--bg3);color:var(--text);font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s}
+.cart-qty button:hover{background:var(--accent);border-color:var(--accent)}
+.cart-qty span{min-width:20px;text-align:center;font-weight:700}
+.cart-footer{padding:1.5rem;border-top:1px solid var(--bg3)}
+.cart-total{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem}
+.cart-total span{font-size:1rem;color:var(--text2)}
+.cart-total strong{font-family:var(--font-display);font-size:1.8rem;color:var(--gold)}
+.cart-form{display:flex;flex-direction:column;gap:.8rem;margin-bottom:1rem}
+.cart-form input{background:var(--bg3);border:1px solid var(--bg4);border-radius:8px;padding:.7em 1em;color:var(--text);font-family:inherit;font-size:.9rem;outline:none;transition:border-color .2s}
+.cart-form input:focus{border-color:var(--accent)}
+.cart-form input::placeholder{color:var(--text3)}
+.wa-btn{width:100%;padding:.9em;background:#25D366;color:#fff;border:none;border-radius:10px;font-size:1rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:.6rem;font-family:inherit;transition:background .2s}
+.wa-btn:hover{background:#1ebe59}
+.wa-btn svg{width:22px;height:22px}
+</style>
+</head>
+<body>
+
+<!-- ===== NAV ===== -->
+<nav id="navbar">
+  <div class="inner">
+    <a href="#"><img src="logo.png" alt="Alcatraz Pizza and Burgers" class="logo-img"></a>
+    <ul class="desktop-nav">
+      <li><a href="#menu" data-sk="Menu" data-en="Menu">Menu</a></li>
+      <li><a href="#why" data-sk="Prečo my" data-en="Why us">Prečo my</a></li>
+      <li><a href="#location" data-sk="Kde sme" data-en="Find us">Kde sme</a></li>
+      <li><a href="#contact" data-sk="Kontakt" data-en="Contact">Kontakt</a></li>
+      <li><button class="lang-btn" onclick="toggleLang()">SK
+</button></li>
+      <li>
+        <a href="tel:+421902669123" class="nav-cta">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.86 19.86 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.86 19.86 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.362 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+          <span data-sk="Objednať" data-en="Order">Objednať</span>
+        </a>
+      </li>
+    </ul>
+    <div class="burger-menu" onclick="document.getElementById('mobileMenu').classList.add('open')">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="close-btn" onclick="this.parentElement.classList.remove('open')">&times;</button>
+  <a href="#menu" onclick="this.parentElement.classList.remove('open')" data-sk="Menu" data-en="Menu">Menu</a>
+  <a href="#why" onclick="this.parentElement.classList.remove('open')" data-sk="Prečo my" data-en="Why us">Prečo my</a>
+  <a href="#location" onclick="this.parentElement.classList.remove('open')" data-sk="Kde sme" data-en="Find us">Kde sme</a>
+  <a href="#contact" onclick="this.parentElement.classList.remove('open')" data-sk="Kontakt" data-en="Contact">Kontakt</a>
+  <a href="tel:+421902669123" class="btn btn-primary" onclick="this.parentElement.classList.remove('open')">
+    <span data-sk="Objednať: 0902 669 123" data-en="Order: 0902 669 123">Objednať: 0902 669 123</span>
+  </a>
+  <button class="lang-btn" onclick="toggleLang();this.parentElement.classList.remove('open')">SK</button>
+</div>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="hero-bg" style="background-image:url('hero_pozadie.jpg')"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-overlay2"></div>
+  <div class="hero-content">
+    <div class="hero-badge" data-sk="Trenčín — Východná ulica" data-en="Trenčín — Východná street">Trenčín — Východná ulica</div>
+    <h1><span data-sk="Poctivé burgre" data-en="Honest burgers">Poctivé burgre</span><br><em>&</em> <span data-sk="talianska pizza" data-en="Italian pizza">talianska pizza</span></h1>
+    <p class="hero-sub" data-sk="Smash burgre z čerstvého hovädzieho, pizza z vlastného cesta a šaláty. Na sídlisku Juh s parkovaním pri dverách." data-en="Smash burgers from fresh beef, pizza from our own dough and salads. Located in Juh district with parking at the door.">Smash burgre z čerstvého hovädzieho, pizza z vlastného cesta a šaláty. Na sídlisku Juh s parkovaním pri dverách.</p>
+    <div class="hero-actions">
+      <a href="#menu" class="btn btn-primary" data-sk="Pozrieť menu" data-en="View menu">Pozrieť menu</a>
+      <a href="tel:+421902669123" class="btn btn-outline" data-sk="Objednať telefonicky" data-en="Order by phone">Objednať telefonicky</a>
+    </div>
+    <div class="hero-hours">
+      <span data-sk="Po – So: 12:00 – 22:00" data-en="Mon – Sat: 12:00 – 22:00">Po – So: 12:00 – 22:00</span> &nbsp;·&nbsp;
+      <span data-sk="Ne: 12:00 – 21:00" data-en="Sun: 12:00 – 21:00">Ne: 12:00 – 21:00</span> &nbsp;·&nbsp;
+      <strong>0902 669 123</strong>
+    </div>
+  </div>
+</section>
+
+<!-- ===== MENU ===== -->
+<section id="menu">
+  <div class="container">
+    <div class="section-label" data-sk="Naše menu" data-en="Our menu">Naše menu</div>
+    <h2 class="section-title" data-sk="Čo u nás dostanete" data-en="What we serve">Čo u nás dostanete</h2>
+    <p class="section-desc" data-sk="Všetky burgre podávame s domácimi hranolkami. Alergény sú označené číslami pri každej položke." data-en="All burgers served with homemade fries. Allergens marked by numbers next to each item.">Všetky burgre podávame s domácimi hranolkami. Alergény sú označené číslami pri každej položke.</p>
+
+    <div class="menu-tabs" role="tablist">
+      <button class="menu-tab active" onclick="showCat('burgers')" data-sk="Burgre" data-en="Burgers">Burgre</button>
+      <button class="menu-tab" onclick="showCat('pizza')" data-sk="Pizza" data-en="Pizza">Pizza</button>
+      <button class="menu-tab" onclick="showCat('salads')" data-sk="Šaláty & Poké" data-en="Salads & Poké">Šaláty & Poké</button>
+      <button class="menu-tab" onclick="showCat('soups')" data-sk="Polievky" data-en="Soups">Polievky</button>
+    </div>
+
+    <!-- BURGERS -->
+    <div class="menu-category active" id="cat-burgers">
+      <div class="menu-grid">
+        <div class="menu-item"><div><h4>Alcatraz Burger</h4><p class="desc" data-sk="130g mleté hovädzie, mayo, šalát, grilovaná slanina, cheddar, vajíčko, grilovaná cibuľka (380g — 1,3,7)" data-en="130g ground beef, mayo, lettuce, grilled bacon, cheddar, egg, grilled onion (380g — 1,3,7)">130g mleté hovädzie, mayo, šalát, grilovaná slanina, cheddar, vajíčko, grilovaná cibuľka (380g — 1,3,7)</p></div><div class="price-wrap"><div class="price">14,30€</div><button class="add-btn" onclick="addToCart('Alcatraz Burger',14.30)">+ Pridať</button></div></div>
+        <div class="menu-item"><div><h4>Hot Chilli Smash Burger</h4><p class="desc" data-sk="130g hovädzie v dvoch plackách, mayo, grilovaná slaninka, cheddar, čerstvá cibuľka, jalapeños (380g — 1,3,7)" data-en="130g beef in two patties, mayo, grilled bacon, cheddar, fresh onion, jalapeños (380g — 1,3,7)">130g hovädzie v dvoch plackách, mayo, grilovaná slaninka, cheddar, čerstvá cibuľka, jalapeños (380g — 1,3,7)</p></div><div class="price-wrap"><div class="price">14,30€</div><button class="add-btn" onclick="addToCart('Hot Chilli Smash Burger',14.30)">+ Pridať</button></div></div>
+        <div class="menu-item"><div><h4>Chicken Burger</h4><p class="desc" data-sk="130g grilované kuracie prsia, mayo, šalát, mozzarella, grilovaná slaninka, cheddar, paradajka (380g — 1,3,7)" data-en="130g grilled chicken breast, mayo, lettuce, mozzarella, grilled bacon, cheddar, tomato (380g — 1,3,7)">130g grilované kuracie prsia, mayo, šalát, mozzarella, grilovaná slaninka, cheddar, paradajka (380g — 1,3,7)</p></div><div class="price-wrap"><div class="price">13,30€</div><button class="add-btn" onclick="addToCart('Chicken Burger',13.30)">+ Pridať</button></div></div>
+        <div class="menu-item"><div><h4>Ultimate Burger</h4><p class="desc" data-sk="130g mleté hovädzie, mayo, šalát, cheddar, grilovaná slaninka, BBQ omáčka, červená cibuľka, kyslá uhorka (390g — 1,3,7,10)" data-en="130g ground beef, mayo, lettuce, cheddar, grilled bacon, BBQ sauce, red onion, pickle (390g — 1,3,7,10)">130g mleté hovädzie, mayo, šalát, cheddar, grilovaná slaninka, BBQ omáčka, červená cibuľka, kyslá uhorka (390g — 1,3,7,10)</p></div><div class="price-wrap"><div class="price">14,30€</div><button class="add-btn" onclick="addToCart('Ultimate Burger',14.30)">+ Pridať</button></div></div>
+        <div class="menu-item"><div><h4>Bacon Smash Burger</h4><p class="desc" data-sk="130g hovädzie v dvoch plackách, mayo, šalát, cheddar, grilovaná slaninka, čerstvá cibuľka (380g — 1,3,7)" data-en="130g beef in two patties, mayo, lettuce, cheddar, grilled bacon, fresh onion (380g — 1,3,7)">130g hovädzie v dvoch plackách, mayo, šalát, cheddar, grilovaná slaninka, čerstvá cibuľka (380g — 1,3,7)</p></div><div class="price-wrap"><div class="price">14,40€</div><button class="add-btn" onclick="addToCart('Bacon Smash Burger',14.40)">+ Pridať</button></div></div>
+        <div class="menu-item"><div><h4>Cheese Smash Burger</h4><p class="desc" data-sk="130g hovädzie v dvoch plackách, mayo, šalát, dvojitý cheddar, grilovaná slaninka, grilovaný roztekajúci syr (390g — 1,3,7)" data-en="130g beef in two patties, mayo, lettuce, double cheddar, grilled bacon, melted cheese (390g — 1,3,7)">130g hovädzie v dvoch plackách, mayo, šalát, dvojitý cheddar, grilovaná slaninka, grilovaný roztekajúci syr (390g — 1,3,7)</p></div><div class="price-wrap"><div class="price">14,40€</div><button class="add-btn" onclick="addToCart('Cheese Smash Burger',14.40)">+ Pridať</button></div></div>
+        <div class="menu-item"><div><h4 data-sk="Burger s trhaným kačacím stehnom" data-en="Pulled Duck Leg Burger">Burger s trhaným kačacím stehnom</h4><p class="desc" data-sk="150g konfitované kačacie stehno, cibulové chutney, domáca paštéta (390g — 1,7,10,11)" data-en="150g confit duck leg, onion chutney, homemade pâté (390g — 1,7,10,11)">150g konfitované kačacie stehno, cibulové chutney, domáca paštéta (390g — 1,7,10,11)</p></div><div class="price-wrap"><div class="price">13,50€</div><button class="add-btn" onclick="addToCart('Burger s trhaným kačacím stehnom',13.50)">+ Pridať</button></div></div>
+        <div class="menu-item"><div><h4>Veggie Burger</h4><p class="desc" data-sk="Grilovaný údený syr, grilovaná cuketa a šampióny, rukola, brusnicová mayo, viedenská cibuľka (370g — 1,3,7)" data-en="Grilled smoked cheese, grilled zucchini & mushrooms, arugula, cranberry mayo, Vienna onion (370g — 1,3,7)">Grilovaný údený syr, grilovaná cuketa a šampióny, rukola, brusnicová mayo, viedenská cibuľka (370g — 1,3,7)</p></div><div class="price-wrap"><div class="price">13,30€</div><button class="add-btn" onclick="addToCart('Veggie Burger',13.30)">+ Pridať</button></div></div>
+        <div class="menu-item"><div><h4>Chicken Wrap</h4><p class="desc" data-sk="Kuracie mäso, grilovaná slaninka, šalát, syr, červená cibuľka, dressing. S hranolkami. (350g — 1,7,10)" data-en="Chicken, grilled bacon, lettuce, cheese, red onion, dressing. With fries. (350g — 1,7,10)">Kuracie mäso, grilovaná slaninka, šalát, syr, červená cibuľka, dressing. S hranolkami. (350g — 1,7,10)</p></div><div class="price-wrap"><div class="price">—</div></div></div>
+        <div class="menu-item"><div><h4>Dipy</h4><p class="desc" data-sk="Domáca tatárka, kečup, BBQ, chilli, cesnakový, slaninový, americký" data-en="Homemade tartar, ketchup, BBQ, chilli, garlic, bacon, American">Domáca tatárka, kečup, BBQ, chilli, cesnakový, slaninový, americký</p></div><div class="price-wrap"><div class="price">2,00€</div><button class="add-btn" onclick="addToCart('Dipy',2.00)">+ Pridať</button></div></div>
+      </div>
+    </div>
+
+    <!-- PIZZA -->
+    <div class="menu-category" id="cat-pizza">
+      <div class="menu-grid">
+        <div class="menu-item"><div><h4>Pizza štangle</h4><p class="desc">(320g — 1,7)</p></div><div class="price-wrap"><div class="price">6,50€</div><button class="add-btn" onclick="addToCart('Pizza štangle',6.50)">+ Pridať</button></div></div>
+        <div class="menu-item"><div><h4>Margherita</h4><p class="desc" data-sk="Par. omáčka, mozzarella, čerstvé cherry (600g — 1,7,16)" data-en="Tomato sauce, mozzarella, fresh cherry tomatoes (600g — 1,7,16)">Par. omáčka, mozzarella, čerstvé cherry (600g — 1,7,16)</p></div><div class="price-wrap"><div class="price">11,20€</div><button class="add-btn" onclick="addToCart('Margherita',11.20)">+ Pridať</button></div></div>
+        <div class="menu-item"><div><h4>Prosciutto</h4><p class="desc" data-sk="Par. omáčka, mozzarella, šunka (650g — 1,7,16)" data-en="Tomato sauce, mozzarella, ham (650g — 1,7,16)">Par. omáčka, mozzarella, šunka (650g — 1,7,16)</p></div><div class="price-wrap"><div class="price">11,30€</div><button class="add-btn" onclick="addToCart('Prosciutto',11.30)">+ Pridať</button></div></div>
+        <div class="menu-item"><div><h4>Prosciutto e Funghi</h4><p class="desc" data-sk="Par. omáčka, mozzarella, šunka, šampióny (680g — 1,7,15,16)" data-en="Tomato sauce, mozzarella, ham, mushrooms (680g — 1,7,15,16)">Par. omáčka, mozzarella, šunka, šampióny (680g — 1,7,15,16)</p></div><div class="price-wrap"><div class="price">11,30€</div><button class="add-btn" onclick="addToCart('Prosciutto e Funghi',11.30)">+ Pridať</button></div></div>
+        <div class="menu-item"><div><h4>Cinque Formaggi</h4><p class="desc" data-sk="Par. omáčka, gouda, mozzarella, niva, údený syr, parmezán (680g — 1,7,16)" data-en="Tomato sauce, gouda, mozzarella, blue cheese, smoked cheese, parmesan (680g — 1,7,16)">Par. omáčka, gouda, mozzarella, niva, údený syr, parmezán (680g — 1,7,16)</p></div><div class="price-wrap"><div class="price">11,70€</div><button class="add-btn" onclick="addToCart('Cinque Formaggi',11.70)">+ Pridať</button></div></div>
+        <div class="menu-item"><div><h4>Quattro Stagioni</h4><p class="desc" data-sk="Par. omáčka, mozzarella, šunka, artičoky, kapary, olivy, šampióny (700g — 1,7,15,16)" data-en="Tomato sauce, mozzarella, ham, artichokes, capers, olives, mushrooms (700g — 1,7,15,16)">Par. omáčka, mozzarella, šunka, artičoky, kapary, olivy, šampióny (700g — 1,7,15,16)</p></div><div class="price-wrap"><div class="price">11,40€</div><button class="add-btn" onclick="addToCart('Quattro Stagioni',11.40)">+ Pridať</button></div></div>
+        <div class="menu-item"><div><h4>Quattro Carne</h4><p class="desc" data-sk="Par. omáčka, mozzarella, šunka, talianska saláma, slanina, klobása (700g — 1,7)" data-en="Tomato sauce, mozzarella, ham, Italian salami, bacon, sausage (700g — 1,7)">Par. omáčka, mozzarella, šunka, talianska saláma, slanina, klobása (700g — 1,7)</p></div><div class="price-wrap"><div class="price">11,70€</div><button class="add-btn" onclick="addToCart('Quattro Carne',11.70)">+ Pridať</button></div></div>
+        <div class="menu-item"><div><h4>Toto</h4><p class="desc" data-sk="Par. omáčka, mozzarella, talianska saláma, šampióny, jalapeños, červená cibuľka (700g — 1,7,15,16)" data-en="Tomato sauce, mozzarella, Italian salami, mushrooms, jalapeños, red onion (700g — 1,7,15,16)">Par. omáčka, mozzarella, talianska saláma, šampióny, jalapeños, červená cibuľka (700g — 1,7,15,16)</p></div><div class="price-wrap"><div class="price">12,40€</div><button class="add-btn" onclick="addToCart('Toto',12.40)">+ Pridať</button></div></div>
+        <div class="menu-item"><div><h4>Fatoria</h4><p class="desc" data-sk="Par. omáčka, mozzarella, šunka, niva, olivy, kuracie mäso (720g — 1,7,10,16)" data-en="Tomato sauce, mozzarella, ham, blue cheese, olives, chicken (720g — 1,7,10,16)">Par. omáčka, mozzarella, šunka, niva, olivy, kuracie mäso (720g — 1,7,10,16)</p></div><div class="price-wrap"><div class="price">11,70€</div><button class="add-btn" onclick="addToCart('Fatoria',11.70)">+ Pridať</button></div></div>
+        <div class="menu-item"><div><h4>Prosciutto Crudo Rucola</h4><p class="desc" data-sk="Par. omáčka, mozzarella, prosciutto crudo, cherry, čerstvá rukola (700g — 1,7,16)" data-en="Tomato sauce, mozzarella, prosciutto crudo, cherry tomatoes, fresh arugula (700g — 1,7,16)">Par. omáčka, mozzarella, prosciutto crudo, cherry, čerstvá rukola (700g — 1,7,16)</p></div><div class="price-wrap"><div class="price">13,00€</div><button class="add-btn" onclick="addToCart('Prosciutto Crudo Rucola',13.00)">+ Pridať</button></div></div>
+        <div class="menu-item"><div><h4>Hercules</h4><p class="desc" data-sk="Par. omáčka, mozzarella, saláma, kukurica, jalapeños, paprika, gorgonzola (720g — 1,7,16)" data-en="Tomato sauce, mozzarella, salami, corn, jalapeños, pepper, gorgonzola (720g — 1,7,16)">Par. omáčka, mozzarella, saláma, kukurica, jalapeños, paprika, gorgonzola (720g — 1,7,16)</p></div><div class="price-wrap"><div class="price">11,20€</div><button class="add-btn" onclick="addToCart('Hercules',11.20)">+ Pridať</button></div></div>
+        <div class="menu-item"><div><h4>Hawaii</h4><p class="desc" data-sk="Par. omáčka, syr, šunka, ananás (620g — 1,7,16)" data-en="Tomato sauce, cheese, ham, pineapple (620g — 1,7,16)">Par. omáčka, syr, šunka, ananás (620g — 1,7,16)</p></div><div class="price-wrap"><div class="price">11,30€</div><button class="add-btn" onclick="addToCart('Hawaii',11.30)">+ Pridať</button></div></div>
+        <div class="menu-item"><div><h4>Alcatraz Pizza</h4><p class="desc" data-sk="BBQ základ, syr, 150g hovädzie mäso, vajíčko, jalapeños, červená cibuľka, cesnak (750g — 1,3,7)" data-en="BBQ base, cheese, 150g beef, egg, jalapeños, red onion, garlic (750g — 1,3,7)">BBQ základ, syr, 150g hovädzie mäso, vajíčko, jalapeños, červená cibuľka, cesnak (750g — 1,3,7)</p></div><div class="price-wrap"><div class="price">15,20€</div><button class="add-btn" onclick="addToCart('Alcatraz Pizza',15.20)">+ Pridať</button></div></div>
+      </div>
+    </div>
+
+    <!-- SALADS -->
+    <div class="menu-category" id="cat-salads">
+      <div class="menu-grid">
+        <div class="menu-item"><div><h4 data-sk="Šalát s kozím syrom" data-en="Goat Cheese Salad">Šalát s kozím syrom</h4><p class="desc" data-sk="Zmes listového šalátu, karamelizovaná hruška, čerstvé hrozno, grilovaný kozí syr, vlašské orechy, figy, javorový sirup (380g — 1,7,8)" data-en="Mixed greens, caramelized pear, fresh grapes, grilled goat cheese, walnuts, figs, maple syrup (380g — 1,7,8)">Zmes listového šalátu, karamelizovaná hruška, čerstvé hrozno, grilovaný kozí syr, vlašské orechy, figy, javorový sirup (380g — 1,7,8)</p></div><div class="price-wrap"><div class="price">13,20€</div><button class="add-btn" onclick="addToCart('Šalát s kozím syrom',13.20)">+ Pridať</button></div></div>
+        <div class="menu-item"><div><h4>Double Cheese Salad</h4><p class="desc" data-sk="Zmes listového šalátu, cherry, uhorka, redkvička, grilovaná niva, kuracie mäso, parmezán (400g — 7)" data-en="Mixed greens, cherry tomatoes, cucumber, radish, grilled blue cheese, chicken, parmesan (400g — 7)">Zmes listového šalátu, cherry, uhorka, redkvička, grilovaná niva, kuracie mäso, parmezán (400g — 7)</p></div><div class="price-wrap"><div class="price">13,50€</div><button class="add-btn" onclick="addToCart('Double Cheese Salad',13.50)">+ Pridať</button></div></div>
+        <div class="menu-item"><div><h4>Chicken Poké</h4><p class="desc" data-sk="Jazmínová ryža, grilované kura v teriyaki, edamame, wakame, avokádo, mrkva, uhorka, redkvička, granátové jablko, kešu, sezam. Japonská majonéza a sriracha. (400g — 3,6,8,11)" data-en="Jasmine rice, teriyaki grilled chicken, edamame, wakame, avocado, carrot, cucumber, radish, pomegranate, cashew, sesame. Japanese mayo & sriracha. (400g — 3,6,8,11)">Jazmínová ryža, grilované kura v teriyaki, edamame, wakame, avokádo, mrkva, uhorka, redkvička, granátové jablko, kešu, sezam. Japonská majonéza a sriracha. (400g — 3,6,8,11)</p></div><div class="price-wrap"><div class="price">13,90€</div><button class="add-btn" onclick="addToCart('Chicken Poké',13.90)">+ Pridať</button></div></div>
+      </div>
+    </div>
+
+    <!-- SOUPS -->
+    <div class="menu-category" id="cat-soups">
+      <div class="menu-grid">
+        <div class="menu-item"><div><h4 data-sk="Domáci hovädzí vývar" data-en="Homemade beef broth">Domáci hovädzí vývar</h4><p class="desc" data-sk="S rezancami a zeleninou (0,3l)" data-en="With noodles and vegetables (0.3l)">S rezancami a zeleninou (0,3l)</p></div><div class="price-wrap"><div class="price">3,50€</div><button class="add-btn" onclick="addToCart('Domáci hovädzí vývar',3.50)">+ Pridať</button></div></div>
+        <div class="menu-item"><div><h4 data-sk="Polievka dňa" data-en="Soup of the day">Polievka dňa</h4><p class="desc" data-sk="Podľa dennej ponuky (0,3l)" data-en="Daily special (0.3l)">Podľa dennej ponuky (0,3l)</p></div><div class="price-wrap"><div class="price">3,50€</div><button class="add-btn" onclick="addToCart('Polievka dňa',3.50)">+ Pridať</button></div></div>
+      </div>
+    </div>
+
+    <div class="allergen-note" data-sk="Alergény: 1 Lepok · 2 Kôrovce · 3 Vajcia · 4 Ryby · 5 Arašidy · 6 Sója · 7 Mlieko · 8 Orechy · 9 Zeler · 10 Horčica · 11 Sezam · 12 Siričitany · 13 Vlčí bôb · 14 Mäkkýše · 15 Hríby · 16 Paradajky" data-en="Allergens: 1 Gluten · 2 Crustaceans · 3 Eggs · 4 Fish · 5 Peanuts · 6 Soy · 7 Milk · 8 Nuts · 9 Celery · 10 Mustard · 11 Sesame · 12 Sulphites · 13 Lupin · 14 Molluscs · 15 Mushrooms · 16 Tomatoes">Alergény: 1 Lepok · 2 Kôrovce · 3 Vajcia · 4 Ryby · 5 Arašidy · 6 Sója · 7 Mlieko · 8 Orechy · 9 Zeler · 10 Horčica · 11 Sezam · 12 Siričitany · 13 Vlčí bôb · 14 Mäkkýše · 15 Hríby · 16 Paradajky</div>
+  </div>
+</section>
+
+<!-- ===== WHY US ===== -->
+<section id="why">
+  <div class="container">
+    <div class="section-label" data-sk="Prečo my" data-en="Why us">Prečo my</div>
+    <h2 class="section-title" data-sk="Čo nás odlišuje" data-en="What sets us apart">Čo nás odlišuje</h2>
+    <p class="section-desc" data-sk="4,5 ★ na Google z 928+ recenzií. Na rovnakom mieste v Trenčíne od začiatku." data-en="4.5 ★ on Google from 928+ reviews. Same location in Trenčín since day one.">4,5 ★ na Google z 928+ recenzií. Na rovnakom mieste v Trenčíne od začiatku.</p>
+    <div class="why-grid">
+      <div class="why-card reveal">
+        <div class="why-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2z"/></svg></div>
+        <h4 data-sk="Smash technika" data-en="Smash technique">Smash technika</h4>
+        <p data-sk="Hovädzie mäso smashované na grile — chrumkavá krusta, šťavnatý vnútrok. Žiadne mrazené polotovary." data-en="Beef smashed on the grill — crispy crust, juicy inside. No frozen pre-mades.">Hovädzie mäso smashované na grile — chrumkavá krusta, šťavnatý vnútrok. Žiadne mrazené polotovary.</p>
+      </div>
+      <div class="why-card reveal">
+        <div class="why-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+        <h4 data-sk="Rozvoz po Trenčíne" data-en="Delivery in Trenčín">Rozvoz po Trenčíne</h4>
+        <p data-sk="Objednajte telefonicky na 0902 669 123 a privezieme až ku vám. Každý deň od 12:00." data-en="Order by phone at 0902 669 123 and we'll deliver to you. Every day from 12:00.">Objednajte telefonicky na 0902 669 123 a privezieme až ku vám. Každý deň od 12:00.</p>
+      </div>
+      <div class="why-card reveal">
+        <div class="why-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+        <h4 data-sk="Parkovanie pri dverách" data-en="Parking at the door">Parkovanie pri dverách</h4>
+        <p data-sk="Východná ulica, sídlisko Juh. Parkovisko priamo pred prevádzkou, žiadne hľadanie miesta." data-en="Východná street, Juh district. Parking lot right at the door, no searching for spots.">Východná ulica, sídlisko Juh. Parkovisko priamo pred prevádzkou, žiadne hľadanie miesta.</p>
+      </div>
+      <div class="why-card reveal">
+        <div class="why-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div>
+        <h4 data-sk="Rezervácie" data-en="Reservations">Rezervácie</h4>
+        <p data-sk="Zavolajte nám a rezervujeme vám stôl na akýkoľvek deň a čas." data-en="Call us and we'll reserve a table for any day and time.">Zavolajte nám a rezervujeme vám stôl na akýkoľvek deň a čas.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== LOCATION ===== -->
+<section id="location">
+  <div class="container">
+    <div class="section-label" data-sk="Kde sme" data-en="Find us">Kde sme</div>
+    <h2 class="section-title" data-sk="Nájdete nás ľahko" data-en="Easy to find">Nájdete nás ľahko</h2>
+    <p class="section-desc" data-sk="Východná 2425/1, Trenčín — sídlisko Juh" data-en="Východná 2425/1, Trenčín — Juh district">Východná 2425/1, Trenčín — sídlisko Juh</p>
+    <div class="location-grid">
+      <div class="map-container">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2614.5!2d18.0365!3d48.8785!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47141a3dea6d56f!2sAlcatraz+Pizza+and+Burgers!5e0!3m2!1ssk!2ssk!4v1" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+      <div class="info-block">
+        <h3 data-sk="Otváracie hodiny" data-en="Opening hours">Otváracie hodiny</h3>
+        <table class="hours-table">
+          <tr><td data-sk="Pondelok – Sobota" data-en="Monday – Saturday">Pondelok – Sobota</td><td>12:00 – 22:00</td></tr>
+          <tr><td data-sk="Nedeľa" data-en="Sunday">Nedeľa</td><td>12:00 – 21:00</td></tr>
+          <tr><td data-sk="Kuchyňa v nedeľu" data-en="Kitchen on Sunday">Kuchyňa v nedeľu</td><td data-sk="do 20:30" data-en="until 20:30">do 20:30</td></tr>
+        </table>
+        <div style="margin-top:2rem">
+          <div class="info-row">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <div><div class="label" data-sk="Adresa" data-en="Address">Adresa</div><div class="val">Východná 2425/1, Trenčín</div></div>
+          </div>
+          <div class="info-row">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.86 19.86 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.86 19.86 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.362 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+            <div><div class="label" data-sk="Telefón" data-en="Phone">Telefón</div><div class="val"><a href="tel:+421902669123">0902 669 123</a></div></div>
+          </div>
+          <div class="info-row">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <div><div class="label">Email</div><div class="val"><a href="mailto:alcatraz@alcatraz-tn.sk">alcatraz@alcatraz-tn.sk</a></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CONTACT ===== -->
+<section id="contact">
+  <div class="container">
+    <div class="section-label" data-sk="Kontakt" data-en="Contact">Kontakt</div>
+    <h2 class="section-title" data-sk="Ozvite sa nám" data-en="Get in touch">Ozvite sa nám</h2>
+    <p class="section-desc" data-sk="Objednávky, rezervácie, otázky — najrýchlejšie cez telefón." data-en="Orders, reservations, questions — fastest by phone.">Objednávky, rezervácie, otázky — najrýchlejšie cez telefón.</p>
+    <div class="contact-strip">
+      <div class="contact-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.86 19.86 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.86 19.86 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.362 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        <div class="clabel" data-sk="Telefón" data-en="Phone">Telefón</div>
+        <div class="cval"><a href="tel:+421902669123">0902 669 123</a></div>
+      </div>
+      <div class="contact-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        <div class="clabel">Email</div>
+        <div class="cval"><a href="mailto:alcatraz@alcatraz-tn.sk">alcatraz@alcatraz-tn.sk</a></div>
+      </div>
+      <div class="contact-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+        <div class="clabel">Facebook</div>
+        <div class="cval"><a href="https://www.facebook.com/alcatrazbistro/" target="_blank" rel="noopener">@alcatrazbistro</a></div>
+      </div>
+      <div class="contact-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        <div class="clabel">Instagram</div>
+        <div class="cval"><a href="https://www.instagram.com/alcatraztn/" target="_blank" rel="noopener">@alcatraztn</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-copy">© 2026 Alcatraz Pizza & Burgers · Východná 2425/1, Trenčín</div>
+      <div class="footer-socials">
+        <a href="https://www.facebook.com/alcatrazbistro/" target="_blank" rel="noopener" aria-label="Facebook"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a>
+        <a href="https://www.instagram.com/alcatraztn/" target="_blank" rel="noopener" aria-label="Instagram"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ===== KOŠÍK FAB ===== -->
+<button class="cart-fab hidden" id="cartFab" onclick="openCart()">
+  🛒 Košík <span class="cart-count" id="cartCount">0</span>
+</button>
+
+<!-- ===== KOŠÍK DRAWER ===== -->
+<div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
+<div class="cart-drawer" id="cartDrawer">
+  <div class="cart-header">
+    <h3>Košík</h3>
+    <button class="cart-close" onclick="closeCart()">&times;</button>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <div class="cart-empty">Košík je prázdny</div>
+  </div>
+  <div class="cart-footer">
+    <div class="cart-total">
+      <span>Celkom</span>
+      <strong id="cartTotal">0,00€</strong>
+    </div>
+    <div class="cart-form">
+      <input type="text" id="custName" placeholder="Vaše meno *">
+      <input type="text" id="custAddress" placeholder="Adresa doručenia (alebo &quot;osobný odber&quot;)">
+    </div>
+    <button class="wa-btn" onclick="orderWhatsApp()">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Objednať cez WhatsApp
+    </button>
+  </div>
+</div>
+
+<script>
+// ===== NAV SCROLL =====
+const nav=document.getElementById('navbar');
+window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scrollY>50)});
+
+// ===== MENU TABS =====
+function showCat(id){
+  document.querySelectorAll('.menu-category').forEach(c=>c.classList.remove('active'));
+  document.querySelectorAll('.menu-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('cat-'+id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ===== LANGUAGE TOGGLE =====
+let currentLang='sk';
+function toggleLang(){
+  currentLang=currentLang==='sk'?'en':'sk';
+  document.documentElement.lang=currentLang;
+  document.querySelectorAll('.lang-btn').forEach(b=>{
+    b.textContent=currentLang==='sk'?'SK':'EN';
+  });
+  document.querySelectorAll('[data-sk][data-en]').forEach(el=>{
+    if(el.children.length===0){
+      el.textContent=el.getAttribute('data-'+currentLang);
+    }
+  });
+}
+
+// ===== SCROLL REVEAL =====
+const observer=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target)}});
+},{threshold:.15});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+// ===== SMOOTH SCROLL =====
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    const target=document.querySelector(a.getAttribute('href'));
+    if(target){e.preventDefault();target.scrollIntoView({behavior:'smooth',block:'start'})}
+  });
+});
+
+// ===== KOŠÍK =====
+let cart=[];
+
+function addToCart(name,price){
+  const existing=cart.find(i=>i.name===name);
+  if(existing){existing.qty++;}
+  else{cart.push({name,price,qty:1});}
+  updateCart();
+}
+
+function changeQty(name,delta){
+  const item=cart.find(i=>i.name===name);
+  if(!item)return;
+  item.qty+=delta;
+  if(item.qty<=0)cart=cart.filter(i=>i.name!==name);
+  updateCart();
+}
+
+function updateCart(){
+  const total=cart.reduce((s,i)=>s+i.price*i.qty,0);
+  const count=cart.reduce((s,i)=>s+i.qty,0);
+  document.getElementById('cartCount').textContent=count;
+  document.getElementById('cartFab').classList.toggle('hidden',count===0);
+  document.getElementById('cartTotal').textContent=total.toFixed(2).replace('.',',')+'€';
+  const box=document.getElementById('cartItems');
+  if(cart.length===0){box.innerHTML='<div class="cart-empty">Košík je prázdny</div>';return;}
+  box.innerHTML=cart.map(i=>`
+    <div class="cart-row">
+      <div class="cart-row-name">${i.name}</div>
+      <div class="cart-qty">
+        <button onclick="changeQty('${i.name.replace(/'/g,"\\'")}' ,-1)">−</button>
+        <span>${i.qty}</span>
+        <button onclick="changeQty('${i.name.replace(/'/g,"\\'")}',1)">+</button>
+      </div>
+      <div class="cart-row-price">${(i.price*i.qty).toFixed(2).replace('.',',')}€</div>
+    </div>`).join('');
+}
+
+function openCart(){
+  document.getElementById('cartOverlay').classList.add('open');
+  document.getElementById('cartDrawer').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+
+function closeCart(){
+  document.getElementById('cartOverlay').classList.remove('open');
+  document.getElementById('cartDrawer').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+function orderWhatsApp(){
+  const name=document.getElementById('custName').value.trim();
+  if(!name){document.getElementById('custName').focus();return;}
+  const address=document.getElementById('custAddress').value.trim();
+  const lines=cart.map(i=>`• ${i.name} x${i.qty} — ${(i.price*i.qty).toFixed(2).replace('.',',')}€`).join('\n');
+  const total=cart.reduce((s,i)=>s+i.price*i.qty,0);
+  const msg=`Dobrý deň, chcem objednať:\n${lines}\n\nCelkom: ${total.toFixed(2).replace('.',',')}€\nMeno: ${name}${address?'\nAdresa: '+address:''}`;
+  window.open('https://wa.me/421908819197?text='+encodeURIComponent(msg),'_blank');
+}
+</script>
+</body>
+</html>
