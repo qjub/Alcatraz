@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="sk">
 <head>
+<script>document.documentElement.className='js'</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Alcatraz | Pizza & Burgers — Trenčín</title>
@@ -234,8 +235,9 @@ footer{background:var(--bg);border-top:1px solid var(--bg3);padding:2.5rem 0}
 }
 
 /* ===== SCROLL ANIMATIONS ===== */
-.reveal{opacity:0;transform:translateY(30px);transition:opacity .6s,transform .6s}
-.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal{transition:opacity .6s,transform .6s}
+.js .reveal{opacity:0;transform:translateY(30px)}
+.js .reveal.visible{opacity:1;transform:translateY(0)}
 
 /* ===== KOŠÍK ===== */
 .add-btn{margin-top:.6rem;padding:.4em 1em;background:var(--accent);color:#fff;border-radius:7px;font-size:.8rem;font-weight:700;letter-spacing:.03em;transition:background .2s;cursor:pointer;border:none;font-family:inherit}
@@ -577,7 +579,7 @@ footer{background:var(--bg);border-top:1px solid var(--bg3);padding:2.5rem 0}
   </div>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 // ===== NAV SCROLL =====
 const nav=document.getElementById('navbar');
 window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scrollY>50)});
