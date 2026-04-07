@@ -606,10 +606,16 @@ function toggleLang(){
 }
 
 // ===== SCROLL REVEAL =====
-const observer=new IntersectionObserver((entries)=>{
-  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target)}});
-},{threshold:.15});
-document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+if('IntersectionObserver' in window){
+  const observer=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target)}});
+  },{threshold:0,rootMargin:'0px 0px -50px 0px'});
+  document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+}else{
+  document.querySelectorAll('.reveal').forEach(el=>el.classList.add('visible'));
+}
+// Safety net: ak niečo zlyhá, zobraz všetky reveal elementy po 2s
+setTimeout(()=>{document.querySelectorAll('.reveal:not(.visible)').forEach(el=>el.classList.add('visible'))},2000);
 
 // ===== SMOOTH SCROLL =====
 document.querySelectorAll('a[href^="#"]').forEach(a=>{
