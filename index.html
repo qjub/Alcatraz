@@ -40,13 +40,11 @@ nav ul a:hover{color:var(--accent2)}
 .nav-cta{display:inline-flex;align-items:center;gap:.5rem;background:var(--accent);color:#fff;padding:.7em 1.5em;border-radius:8px;font-size:.95rem;font-weight:700;letter-spacing:.03em;transition:background .2s}
 .nav-cta:hover{background:var(--accent2)}
 .nav-cta svg{width:18px;height:18px}
-.burger-menu{display:none;flex-direction:column;gap:6px;width:32px;cursor:pointer}
+.burger-menu{display:none;flex-direction:column;gap:6px;width:32px;cursor:pointer;position:relative;z-index:101}
 .burger-menu span{display:block;height:2.5px;background:var(--text);border-radius:2px;transition:all .3s}
-.mobile-menu{display:none;position:fixed;inset:0;background:rgba(12,26,46,.98);z-index:99;flex-direction:column;align-items:center;justify-content:center;gap:2.5rem}
+.mobile-menu{display:none;position:fixed;inset:0;background:rgba(12,26,46,.98);z-index:99;flex-direction:column;align-items:center;justify-content:center;gap:1.8rem;padding:5rem 2rem 2rem}
 .mobile-menu.open{display:flex}
-.mobile-menu a{font-family:var(--font-display);font-size:2.8rem;letter-spacing:.06em}
-.mobile-menu .close-btn{position:absolute;top:1.2rem;right:1.2rem;width:52px;height:52px;display:flex;align-items:center;justify-content:center;font-size:2.2rem;line-height:1;color:var(--text);background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:50%;cursor:pointer;z-index:101;font-family:inherit;padding:0}
-.mobile-menu .close-btn:hover,.mobile-menu .close-btn:active{background:rgba(255,255,255,.15)}
+.mobile-menu a{font-family:var(--font-display);font-size:1.8rem;letter-spacing:.04em}
 
 /* ===== HERO ===== */
 .hero{position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden}
@@ -330,7 +328,7 @@ footer{background:var(--bg);border-top:1px solid var(--bg3);padding:2.5rem 0}
         </a>
       </li>
     </ul>
-    <div class="burger-menu" onclick="document.getElementById('mobileMenu').classList.add('open')">
+    <div class="burger-menu" onclick="document.getElementById('mobileMenu').classList.toggle('open')">
       <span></span><span></span><span></span>
     </div>
   </div>
@@ -338,16 +336,15 @@ footer{background:var(--bg);border-top:1px solid var(--bg3);padding:2.5rem 0}
 
 <!-- MOBILE MENU -->
 <div class="mobile-menu" id="mobileMenu" onclick="if(event.target===this)this.classList.remove('open')">
-  <button class="close-btn" onclick="document.getElementById('mobileMenu').classList.remove('open')" aria-label="Zavrieť menu">&times;</button>
-  <a href="#combo" onclick="this.parentElement.classList.remove('open')" data-sk="Obedové menu" data-en="Lunch menu">Obedové menu</a>
-  <a href="#menu" onclick="this.parentElement.classList.remove('open')" data-sk="Menu" data-en="Menu">Menu</a>
-  <a href="#why" onclick="this.parentElement.classList.remove('open')" data-sk="Prečo my" data-en="Why us">Prečo my</a>
-  <a href="#location" onclick="this.parentElement.classList.remove('open')" data-sk="Kde sme" data-en="Find us">Kde sme</a>
-  <a href="#contact" onclick="this.parentElement.classList.remove('open')" data-sk="Kontakt" data-en="Contact">Kontakt</a>
-  <a href="tel:+421902669123" class="btn btn-primary" onclick="this.parentElement.classList.remove('open')">
+  <a href="#combo" onclick="document.getElementById('mobileMenu').classList.remove('open')" data-sk="Obedové menu" data-en="Lunch menu">Obedové menu</a>
+  <a href="#menu" onclick="document.getElementById('mobileMenu').classList.remove('open')" data-sk="Menu" data-en="Menu">Menu</a>
+  <a href="#why" onclick="document.getElementById('mobileMenu').classList.remove('open')" data-sk="Prečo my" data-en="Why us">Prečo my</a>
+  <a href="#location" onclick="document.getElementById('mobileMenu').classList.remove('open')" data-sk="Kde sme" data-en="Find us">Kde sme</a>
+  <a href="#contact" onclick="document.getElementById('mobileMenu').classList.remove('open')" data-sk="Kontakt" data-en="Contact">Kontakt</a>
+  <a href="tel:+421902669123" class="btn btn-primary" onclick="document.getElementById('mobileMenu').classList.remove('open')">
     <span data-sk="Objednať: 0902 669 123" data-en="Order: 0902 669 123">Objednať: 0902 669 123</span>
   </a>
-  <button class="lang-btn" onclick="toggleLang();this.parentElement.classList.remove('open')">SK</button>
+  <button class="lang-btn" onclick="toggleLang();document.getElementById('mobileMenu').classList.remove('open')">SK</button>
 </div>
 
 <!-- ===== HERO ===== -->
