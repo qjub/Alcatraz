@@ -85,6 +85,7 @@ section{padding:clamp(4rem,8vw,7rem) 0}
 .combo-num{flex-shrink:0;width:42px;height:42px;border-radius:50%;background:rgba(200,164,85,.12);color:var(--gold);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:1.4rem;font-weight:700}
 .combo-body h4{font-size:1.05rem;font-weight:700;margin-bottom:.35rem}
 .combo-body p{font-size:.82rem;color:var(--text2);line-height:1.55}
+.combo-add{margin-top:.8rem}
 .combo-loading,.combo-error{text-align:center;padding:3rem 1rem;color:var(--text3);font-size:.95rem}
 .combo-error{color:var(--accent)}
 
@@ -881,14 +882,20 @@ function renderCombo(ponuky,info){
     body.innerHTML='<div class="combo-error">Dnes nie je obedové combo.</div>';
     return;
   }
-  body.innerHTML='<div class="combo-grid">'+ponuky.map(p=>`
+  // Parse cena z "11,50€" alebo "11.50 e" → 11.50
+  const priceNum=parseFloat((info.cena||'0').replace(/[^\d.,]/g,'').replace(',','.'))||0;
+  body.innerHTML='<div class="combo-grid">'+ponuky.map(p=>{
+    const itemName=`Obedové combo — ${p.nazov||''}`.replace(/'/g,"\\'");
+    return `
     <div class="combo-item">
       <div class="combo-num">${p.cislo||'•'}</div>
       <div class="combo-body">
         <h4>${p.nazov||''}</h4>
         <p>${p.popis||''}</p>
+        <button class="add-btn combo-add" onclick="addToCart('${itemName}',${priceNum})">+ Pridať</button>
       </div>
-    </div>`).join('')+'</div>';
+    </div>`;
+  }).join('')+'</div>';
 }
 
 loadCombo();
